@@ -34,9 +34,9 @@ fi
 
 # If URL array is passed, only purge those. Otherwise, purge everything.
 if [ -n "$PURGE_URLS" ]; then
-  set -- --data '{"files":'"${PURGE_URLS}"'}'
+  DATA='{"files":'${PURGE_URLS}'}'
 else
-  set -- --data '{"purge_everything":true}'
+  DATA='{"purge_everything":true}'
 fi
 
 
@@ -44,20 +44,20 @@ fi
 
 # Using a global API key:
 if [ "$API_METHOD" -eq 1 ]; then
-  HTTP_RESPONSE=$(curl -vsS "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
+  HTTP_RESPONSE=$(curl -sS "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
                       -H "Content-Type: application/json" \
                       -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
                       -H "X-Auth-Key: ${CLOUDFLARE_KEY}" \
                       -w "HTTP_STATUS:%{http_code}" \
-                      "$@")
+                      --data $DATA)
 
 # Using an API token:
 elif [ "$API_METHOD" -eq 2 ]; then
-  HTTP_RESPONSE=$(curl -vsS "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
+  HTTP_RESPONSE=$(curl -sS "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
                       -H "Content-Type: application/json" \
                       -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
                       -w "HTTP_STATUS:%{http_code}" \
-                      "$@")
+                      --data $DATA)
 fi
 
 
