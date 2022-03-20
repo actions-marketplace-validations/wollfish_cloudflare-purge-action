@@ -1,6 +1,6 @@
-name: "Cloudflare Purge Cache"
+name: "Wollfish Cloudflare Purge Cache"
 description: "Purge a zone's cache via the Cloudflare API"
-author: jakejarvis
+author: jindalrj
 runs:
   using: docker
   image: Dockerfile
