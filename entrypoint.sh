@@ -32,6 +32,8 @@ if [ -z "$CLOUDFLARE_ZONE" ]; then
   exit 1
 fi
 
+echo "$PURGE_URLS"
+
 # If URL array is passed, only purge those. Otherwise, purge everything.
 if [ -n "$PURGE_URLS" ]; then
   DATA='{"files":'${PURGE_URLS}'}'
@@ -39,6 +41,7 @@ else
   DATA='{"purge_everything":true}'
 fi
 
+echo $DATA
 
 ######## Call the API and store the response for later. ########
 
