@@ -36,7 +36,7 @@ echo "$PURGE_URLS"
 
 # If URL array is passed, only purge those. Otherwise, purge everything.
 if [ -n "$PURGE_URLS" ]; then
-  PURGE_URLS=$(echo -n $PURGE_URLS | sed -e "s/'$/']/")
+  PURGE_URLS=$(echo -n $PURGE_URLS | sed -e "s/'$/']/" | sed "s/'/\"/g")
   DATA='{"files":'${PURGE_URLS}'}'
 else
   DATA='{"purge_everything":true}'
